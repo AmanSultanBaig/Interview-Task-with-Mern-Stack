@@ -1,0 +1,22 @@
+Rate Limiting Trade-offs & Gotchas
+Approach
+
+We chose to implement a distributed sliding-window rate limiter, backed by Redis, to handle multiple instances. This approach ensures that requests are limited within a sliding window and are shared across multiple instances, ensuring consistency.
+
+Advantages
+
+Distributed Nature: By using Redis, rate-limiting state is shared across multiple service instances. This ensures that the rate limit is accurately enforced even when the service is scaled horizontally.
+
+Sliding-Window Limiting: Unlike fixed bucket rate-limiting, a sliding window allows for more fine-grained control of request rate, improving accuracy and avoiding sudden rate-limit drops.
+
+Redis as a Cache: Redis provides a fast and reliable key-value store, which is crucial for fast rate-limiting operations.
+
+Challenges & Gotchas
+
+Clock Skew: The sliding window mechanism depends on timestamps, and if there's any significant clock skew between multiple instances, it could lead to incorrect rate-limiting enforcement. We mitigate this by using Redis' EXPIRE functionality, but clock skew is still a consideration for a large-scale distributed system.
+
+Redis Failures: Redis failures can affect the rate-limiting mechanism. We rely on Redis for the rate-limiting state, so if Redis becomes unavailable, rate-limiting will fail. This is mitigated by having Redis persistence and failover strategies (e.g., Redis Sentinel or Redis Cluster).
+
+Latency: The additional Redis network request adds some latency to the rate-limiting check. We minimized this by ensuring that Redis operations (e.g., INCR and EXPIRE) are quick and efficient.
+
+Rate-Limiting Threshold: The rate-limiting threshold (requests per minute) is a configuration choice. If this value is too low, legitimate users may be rate-limited. If it’s too high, the system might not protect the resource effectively.

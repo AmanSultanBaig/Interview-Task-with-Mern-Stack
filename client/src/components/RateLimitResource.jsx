@@ -6,7 +6,6 @@ const RateLimitResource = () => {
   const [response, setResponse] = useState(null);
 
   const handleClick = async () => {
-    console.log(apiKey)
     const result = await getResource(apiKey);
     setResponse(result);
   };
