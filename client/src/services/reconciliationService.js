@@ -9,3 +9,20 @@ export const uploadCSV = (formData) => {
     },
   });
 };
+
+export const getResource = async (apiKey) => {
+  try {
+    const response = await axios.get(`${API}/resource`, {
+      headers: {
+        'X-API-Key': apiKey,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else {
+      return { message: 'Network Error' };
+    }
+  }
+};
