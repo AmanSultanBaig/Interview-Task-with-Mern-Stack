@@ -1,9 +1,9 @@
 const redisClient = require('../config/redis');
 
 const slidingWindowRateLimiter = async (req, res, next) => {
-  const { apiKey } = req.headers;
+  const { apikey } = req.headers;
 
-  if (!apiKey) {
+  if (!apikey) {
     return res.status(400).json({ message: 'API key is required' });
   }
 
@@ -14,11 +14,11 @@ const slidingWindowRateLimiter = async (req, res, next) => {
   const windowStart = currentTime - windowSize;
 
   try {
-    await redisClient.zAdd(apiKey, { score: currentTime, value: currentTime.toString() });
+    await redisClient.zAdd(apikey, { score: currentTime, value: currentTime.toString() });
 
-    await redisClient.zRemRangeByScore(apiKey, '-inf', windowStart);
+    await redisClient.zRemRangeByScore(apikey, '-inf', windowStart);
 
-    const requestCount = await redisClient.zCount(apiKey, windowStart, currentTime);
+    const requestCount = await redisClient.zCount(apikey, windowStart, currentTime);
 
     if (requestCount > limit) {
       return res.status(429).json({ message: 'Too many requests' });

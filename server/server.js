@@ -6,8 +6,10 @@ const flagsRoutes = require('./routes/flagsRoutes');
 const reconciliationRoutes = require("./routes/reconciliationRoutes");
 const rateLimiterRoutes = require('./routes/rateLimiterRoutes');
 const errorHandler = require("./middlewares/errorHandler");
+const cors = require("cors")
 
 const app = express();
+app.use(cors());
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
