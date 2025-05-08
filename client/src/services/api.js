@@ -14,7 +14,7 @@ export const getResource = async (apiKey) => {
   try {
     const response = await axios.get(`${API}/resource`, {
       headers: {
-        'X-API-Key': apiKey,
+        'apikey': apiKey,
       },
     });
     return response.data;
@@ -25,4 +25,10 @@ export const getResource = async (apiKey) => {
       return { message: 'Network Error' };
     }
   }
+};
+
+export const getFlags = (userId, region) => {
+  return axios.get(`${API}/flags`, {
+    params: { user: userId, region: region }
+  });
 };

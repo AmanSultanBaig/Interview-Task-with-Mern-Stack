@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import UploadForm from "./components/UploadForm";
 import ResultsTable from "./components/ResultsTable";
-import { getResource } from "./services/reconciliationService";
+import FlagChecker from "./components/FlagChecker";
+import { getResource } from "./services/api";
 
 function App() {
   const [mismatches, setMismatches] = useState([]);
@@ -16,6 +17,11 @@ function App() {
 
   return (
     <div style={{ padding: 20 }}>
+      <h1>Feature Flag Demo</h1>
+      <FlagChecker />
+
+      <hr />
+
       <h1>Sliding-Window Rate Limiter</h1>
 
       {/* API Key Input */}
@@ -33,9 +39,6 @@ function App() {
       </div>
 
       {/* Display Rate Limit Response */}
-      <hr />
-
-      <h1>Mini Reconciliation Engine</h1>
 
       {rateLimitResponse && (
         <div style={{ marginBottom: "20px" }}>
@@ -43,6 +46,10 @@ function App() {
           <pre>{JSON.stringify(rateLimitResponse, null, 2)}</pre>
         </div>
       )}
+
+      <hr />
+
+      <h1>Mini Reconciliation Engine</h1>
 
       {/* UploadForm Component for CSV Upload */}
       <UploadForm onResults={(data) => setMismatches(data.mismatches)} />

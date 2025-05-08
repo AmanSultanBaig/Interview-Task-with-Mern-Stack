@@ -7,17 +7,25 @@ const ResultsTable = ({ mismatches }) => {
     <table border="1" cellPadding="5">
       <thead>
         <tr>
-          {Object.keys(mismatches[0]).map((key) => (
-            <th key={key}>{key}</th>
-          ))}
+          <th>Txn_ID</th>
+          <th>Amount</th>
+          <th>Paid_At</th>
+          <th>Status</th>
+          <th>Ref</th>
+          <th>csvHeader</th>
+          <th>ledgerField</th>
         </tr>
       </thead>
       <tbody>
-        {mismatches.map((row, idx) => (
+        {mismatches.map((item, idx) => (
           <tr key={idx}>
-            {Object.values(row).map((val, j) => (
-              <td key={j}>{val}</td>
-            ))}
+            <td>{item.row.Txn_ID}</td>
+            <td>{item.row.Amount}</td>
+            <td>{item.row.Paid_At}</td>
+            <td>{item.row.Status}</td>
+            <td>{item.row.Ref}</td>
+            <td>{item.csvHeader}</td>
+            <td>{item.ledgerField}</td>
           </tr>
         ))}
       </tbody>
