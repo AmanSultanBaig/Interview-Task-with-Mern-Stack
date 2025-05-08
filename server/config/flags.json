@@ -1,0 +1,18 @@
+{
+  "global": {
+    "featureA": true,
+    "featureB": false
+  },
+  "regions": {
+    "EU": {
+      "featureA": false,
+      "featureB": true
+    }
+  },
+  "users": {
+    "42": {
+      "featureA": true,
+      "featureB": false
+    }
+  }
+}
